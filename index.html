@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal de Tonte</title>
+  <link rel="icon" type="image/png" href="tondeuse.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tondeuse.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Journal de <span>Tonte</span> 🌿</h1>
+    <p class="subtitle">Saison 2026 · Mammotion Yuka Mini Vision 700</p>
+  </header>
+  <div class="section-title-stats">
+    <span class="section-emoji-stats">📊</span>
+    <span>Statistiques</span>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-value" id="stat-temps">—</div>
+      <div class="stat-label">Temps de tonte</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌱</div>
+      <div class="stat-value" id="stat-surface">—</div>
+      <div class="stat-label">Surface tondue</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-value" id="stat-sessions">—</div>
+      <div class="stat-label">Sessions enregistrées</div>
+    </div>
+    <div class="stat-card stat-card--km">
+      <div class="stat-icon">🛞</div>
+      <div class="stat-value" id="stat-km">—</div>
+      <div class="stat-label">Kilométrage robot</div>
+    </div>
+    <div class="stat-card stat-card--lames">
+      <div class="stat-lames-top">
+        <div class="stat-icon">✂️</div>
+        <div class="stat-value" id="stat-lames">—</div>
+        <div class="stat-label">Durée de vie des lames</div>
+      </div>
+      <div class="stat-lames-bar-zone">
+        <div class="stat-progress-wrap">
+          <canvas id="bar-lames-canvas" height="5"></canvas>
+        </div>
+        <div class="stat-progress-legend"><span>0 h</span><span id="lames-max-label">145 h</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title-histo">
+    <span class="section-emoji-histo">📋</span>
+    <span>Historique des sessions</span>
+  </div>
+  <div class="table-controls">
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="filterZone('all', this)">Toutes</button>
+      <button class="filter-btn btn-z1" onclick="filterZone('Zone 1', this)">Zone 1</button>
+      <button class="filter-btn btn-z2" onclick="filterZone('Zone 2', this)">Zone 2</button>
+    </div>
+    <div class="group-btns">
+      <button class="group-btn active" data-group="zone-surface">📍 Zone &amp; Surface</button>
+      <button class="group-btn active" data-group="duree-vitesse">⚡ Durée &amp; Vitesse</button>
+      <button class="group-btn active" data-group="lame">✂️ Hauteur &amp; Lame</button>
+      <button class="group-btn active" data-group="carto">🗺️ Espacement &amp; Carto</button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th data-col="date">Date</th>
+          <th data-col="zone"       data-group="zone-surface">Zone</th>
+          <th data-col="surface"    data-group="zone-surface">Surface</th>
+          <th data-col="duree"      data-group="duree-vitesse">Durée</th>
+          <th data-col="vitesse"    data-group="duree-vitesse">Vitesse</th>
+          <th data-col="hauteur"    data-group="lame">Hauteur</th>
+          <th data-col="puissance"  data-group="lame">Lame</th>
+          <th data-col="espacement" data-group="carto">Espacement</th>
+          <th data-col="carto"      data-group="carto">Cartographie</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+  <div id="mentionsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>📄 Mentions légales</h2>
+      <p><strong>Éditeur du site</strong><br>
+      <span class="contact-inline">Loris GOUHIER - lorisgouhier@gmail.com</span><br>
+      Site personnel sans but commercial, réalisé à des fins de présentation et de développement web.</p>
+      <p><strong>Hébergeur/Diffusion/Domaine</strong><br>
+      GitHub Inc, 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.<br>
+      Cloudflare Inc, 101 Townsend Street, San Francisco, CA 94107, États-Unis.<br>
+      OVH SAS, 2 Rue Kellermann, 59100 Roubaix, France.</p>
+      <p><strong>Propriété intellectuelle</strong><br>
+      L'ensemble du contenu présent sur ce site (textes, images, codes sources, etc) est la propriété exclusive de Loris GOUHIER.
+      Conformément à l'article L.122-4 du Code de la propriété intellectuelle,
+      toute reproduction, représentation, même partielle est interdite sans autorisation préalable.</p>
+      <p><strong>Données personnelles</strong><br>
+      Ce site ne collecte aucune donnée personnelle ni aucun cookie de suivi.<br>
+      GitHub et Cloudflare peuvent traiter votre adresse IP pour le fonctionnement et la sécurité du site.</p>
+    <p class="maj-line">Site web et mentions légales mis à jour le <b>03/11/2026</b>.</p>
+    </div>
+  </div>
+  <footer>
+    <p>© 2026 | Tous droits réservés | <a onclick="openModal()">Mentions légales</a></p>
+  </footer>
+  <script src="tondeuse.js"></script>
+</body>
+</html>
